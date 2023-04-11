@@ -13,14 +13,14 @@
 
 **2、主框架**
 
-- Spring Boot 2.3.x
+- Spring Boot 3.0.5
 - Spring Cloud Hoxton.SR9
 - Spring Framework 5.2.x
 - Spring Security 5.2.x
 
 **3、持久层**
 
-- Apache MyBatis 3.5.x
+- MyBatis Plus 3.5.3
 - Alibaba Druid 1.2.x
 
 **4、视图层**

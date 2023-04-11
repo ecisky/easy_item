@@ -1,52 +1,48 @@
 package com.easy.generator;
 
-import com.baomidou.mybatisplus.generator.AutoGenerator;
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.generator.FastAutoGenerator;
 import com.baomidou.mybatisplus.generator.config.DataSourceConfig;
-import com.baomidou.mybatisplus.generator.config.OutputFile;
-import com.baomidou.mybatisplus.generator.engine.FreemarkerTemplateEngine;
-
-import java.util.Collections;
 
 
-public class Generator extends BaseGeneratorTest {
-
+public class Generator {
 
     /**
      * 数据源配置
      */
-    private static final DataSourceConfig DATA_SOURCE_CONFIG = new DataSourceConfig
-            .Builder("jdbc:mysql://127.0.0.1:3306/easy_item?serverTimezone=Asia/Shanghai", "root", "root@123")
-            .schema("easy_item")
-            .build();
+    private static final DataSourceConfig.Builder DATA_SOURCE_CONFIG = new DataSourceConfig
+            .Builder("jdbc:mysql://127.0.0.1:3306/easy_item?serverTimezone=Asia/Shanghai", "root", "root@123");
 
+    /**
+     * 执行 run
+     */
     public static void main(String[] args) {
-//        AutoGenerator generator = new AutoGenerator(DATA_SOURCE_CONFIG);
-//        generator.strategy(strategyConfig().build());
-//        generator.global(globalConfig().build());
-//        generator.execute();
-        System.out.println(System.getProperty("user.dir"));
-        FastAutoGenerator.create("jdbc:mysql://127.0.0.1:3306/easy_item?serverTimezone=Asia/Shanghai", "root", "root@123")
-                .globalConfig(builder -> {
-                    builder.author("baomidou") // 设置作者
-                            .enableSwagger() // 开启 swagger 模式
-                            .fileOverride() // 覆盖已生成文件
-                            .outputDir("D://"); // 指定输出目录
-                })
-                .packageConfig(builder -> {
-                    builder.parent("com.easy.mapper") // 设置父包名
-                            .moduleName("system") // 设置父包模块名
-                            .pathInfo(Collections.singletonMap(OutputFile.xml, "D://")); // 设置mapperXml生成路径
-                })
-                .strategyConfig(builder -> {
-                    builder.addInclude("sys") // 设置需要生成的表名
-                            .addTablePrefix("t_", "c_"); // 设置过滤表前缀
-                })
-                //.templateEngine(new FreemarkerTemplateEngine()) // 使用Freemarker引擎模板，默认的是Velocity引擎模板
+        // 项目模块名
+        String module = "easy_sys";
+        // 一些数据库需要配置schema
+        String schema = "";
+        // 注释作者名称
+        String author = "easy";
+        // 包名
+        String packageConfig = "com.easy";
+        String path = System.getProperty("user.dir")+ "/" + module+"/src/main/java";
+        FastAutoGenerator.create(DATA_SOURCE_CONFIG)
+                // 数据库配置
+                .dataSourceConfig((builder) -> builder.schema(schema))
+                // 全局配置
+                .globalConfig((builder) -> builder.author(author).outputDir(path).disableOpenDir())
+                // 包配置
+                .packageConfig((builder) -> builder.parent(packageConfig))
+                // 策略配置
+                .strategyConfig((builder -> builder.controllerBuilder().enableRestStyle()))
+                .strategyConfig((builder -> builder.entityBuilder().enableFileOverride().enableTableFieldAnnotation()))
+                /*
+                    模板引擎配置，默认 Velocity 可选模板引擎 Beetl 或 Freemarker 或 Enjoy
+                   .templateEngine(new BeetlTemplateEngine())
+                   .templateEngine(new FreemarkerTemplateEngine())
+                   .templateEngine(new EnjoyTemplateEngine())
+                 */
                 .execute();
-
-
-
     }
 }
 
