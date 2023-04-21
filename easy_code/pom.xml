@@ -21,6 +21,7 @@
         <alibaba.cloud.version>2022.0.0.0-RC1</alibaba.cloud.version>
         <mybatis-plus.version>3.5.3</mybatis-plus.version>
         <snakeyaml.version>2.0</snakeyaml.version>
+        <fastjson.version>2.0.28</fastjson.version>
     </properties>
     <dependencyManagement>
         <dependencies>
@@ -71,6 +72,21 @@
                 <artifactId>snakeyaml</artifactId>
                 <version>${snakeyaml.version}</version>
             </dependency>
+            <!-- fastjson -->
+            <dependency>
+                <groupId>com.alibaba.fastjson2</groupId>
+                <artifactId>fastjson2</artifactId>
+                <version>${fastjson.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>${spring-boot.version}</version>
+            </plugin>
+        </plugins>
+    </build>
 </project>
